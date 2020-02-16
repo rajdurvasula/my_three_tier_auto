@@ -1,0 +1,62 @@
+---
+# tasks file for rd_setup_appdb
+#
+
+- name: Include Task to setup PostgreSQL DB
+  include: install_postgres.yml
+
+- name: Update user access
+  lineinfile:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    line: "host  all  {{item}}  0.0.0.0/0  md5"
+    insertafter: EOF
+    backup: yes
+    owner: postgres
+    group: postgres
+  with_items:
+    - "{{admin_user}}"
+    - "{{app_user}}"
+
+- name: Copy script to set password for postgres user
+  template:
+    src: postgres_password.sql.j2
+    dest: /var/lib/pgsql/postgres_password.sql
+    owner: postgres
+    group: postgres
+
+- name: Copy sql file to create DB users
+  template:
+    src: db_users.sql.j2
+    dest: /var/lib/pgsql/db_users.sql
+    owner: postgres
+    group: postgres
+
+- name: Set postgres user password
+  command: /bin/psql -f /var/lib/pgsql/postgres_password.sql
+  become_user: postgres
+
+- name: Create DB users
+  command: /bin/psql -f /var/lib/pgsql/db_users.sql
+  become_user: postgres
+
+- name: Listen on all addresses
+  lineinfile:
+    path: /var/lib/pgsql/data/postgresql.conf
+    regexp: '^#listen_addresses'
+    insertafter: '^#listen_addresses'
+    line: "listen_addresses = '*'"
+    backup: yes
+    owner: postgres
+    group: postgres
+  notify:
+    - restart_postgresql
+
+- name: Allow connectivity on primary IP address
+  lineinfile:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    insertafter: EOF
+    line: "host all {{ item }} 0.0.0.0/0 md5"
+  with_items:
+    - "{{ admin_user }}"
+    - "{{ app_user }}"
+

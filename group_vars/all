@@ -1,0 +1,9 @@
+---
+GUID: 6bca
+repo_file: project.repo
+
+# DB users
+admin_user: postgres
+admin_password: passw0rd
+app_user: guest1
+app_password: passw0rd

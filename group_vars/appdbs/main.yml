@@ -1,0 +1,12 @@
+---
+defaultdb: sampledb
+admin_user: postgres
+admin_password: passw0rd
+app_user: guest1
+app_password: passw0rd
+
+postgresql_databases:
+  - name: "{{defaultdb}}"
+
+# Application
+app_db_name: empdb

@@ -1,0 +1,13 @@
+---
+#
+# Tasks to install PostgreSQL server
+#
+
+- name: Include Role to install PostgreSQL Server
+  include_role:
+    name: geerlingguy.postgresql
+
+- name: Start PostgreSQL server
+  service:
+    name: postgresql
+    state: started

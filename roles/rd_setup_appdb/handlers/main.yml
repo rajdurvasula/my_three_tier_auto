@@ -1,0 +1,9 @@
+---
+# handlers file for rd_setup_appdb
+#
+
+- name: restart_postgresql
+  service:
+    name: postgresql
+    state: restarted
+

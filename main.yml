@@ -1,0 +1,45 @@
+---
+#
+# Playbooks to setup 3-tier app
+#
+
+- name: Playbook for common tasks on all hosts
+  hosts: all
+  become: true
+
+  roles:
+    - { role: rd_ans_common, }
+
+- name: Playbook to deploy haproxy
+  hosts: frontends
+  become: true
+
+  roles:
+    - { role: rd_install_haproxy, }
+    - { role: rd_config_haproxy, }
+
+- name: Playbook to deploy tomcat
+  hosts: apps
+  become: true
+
+  roles:
+    - { role: rd_install_tomcat, }
+    - { role: rd_config_tomcat, }
+    - { role: rd_setup_dbclient, }
+
+- name: Playbook to setup PostgreSQL DB
+  hosts: appdbs
+  become: true
+
+  roles:
+    - { role: rd_setup_appdb, }
+    - { role: rd_config_app_db, }
+
+- name: Playbook to deploy app
+  hosts: apps
+  become: true
+
+  roles:
+    - { role: rd_install_app, }
+    - { role: rd_config_app, }
+

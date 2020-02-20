@@ -8,7 +8,7 @@
   become: true
 
   roles:
-    - { role: rd_ans_common, }
+    - { role: rd_ans_common, when: not inventory_hostname is search('bastion.*') }
 
 - name: Playbook to deploy haproxy
   hosts: frontends
@@ -35,11 +35,11 @@
     - { role: rd_setup_appdb, }
     - { role: rd_config_app_db, }
 
-- name: Playbook to deploy app
-  hosts: apps
-  become: true
-
-  roles:
-    - { role: rd_install_app, }
-    - { role: rd_config_app, }
+#- name: Playbook to deploy app
+#  hosts: apps
+#  become: true
+#
+#  roles:
+#    - { role: rd_install_app, }
+#    - { role: rd_config_app, }
 

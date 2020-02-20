@@ -11,4 +11,4 @@
       <role rolename="manager-gui"/>
       <user username="{{ tomcat_admin }}" password="{{ tomcat_admin_password }}" roles="manager-gui,admin,standard,manager"/>
     insertbefore: "</tomcat-users>"
-
+    backup: yes

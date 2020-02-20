@@ -12,8 +12,9 @@
 
 - name: Run Application DB scripts
   shell: |
-    "export PG_PASSWORD={{ admin_password }}" ;
-    /bin/psql -U {{ admin_user }} -f /var/lib/pgsql/app_db.sql
+    /bin/psql -h localhost -U {{ admin_user }} -f /var/lib/pgsql/app_db.sql
+  environment:
+    PGPASSWORD: "{{ admin_password }}"
   args:
     executable: /bin/bash
   become_user: postgres
@@ -27,7 +28,8 @@
 
 - name: Run Application Schema scripts
   shell: |
-    /bin/psql -h localhost -U {{ app_user }} {{ app_db_name }} -w -f /var/lib/pgsql/app_schema.sql
+    "export PG_PASSWORD={{ app_password }}"
+    /bin/psql -h localhost -U {{ app_user }} {{ app_db_name }} -f /var/lib/pgsql/app_schema.sql
   args:
     executable: /bin/bash
   environment:

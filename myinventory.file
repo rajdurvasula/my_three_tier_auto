@@ -5,7 +5,7 @@
 timeout=60
 ansible_become=yes
 ansible_user=ec2-user
-ansible_ssh_private_key_file="~/.ssh/6bcakey.pem"
+ansible_ssh_private_key_file="~/.ssh/dd15key.pem"
 ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 
 [3tierapp:children]
@@ -16,14 +16,14 @@ support
 
 
 [frontends]
-frontend1.6bca.internal ansible_ssh_host=frontend1.6bca.example.opentlc.com
+frontend1.dd15.internal ansible_ssh_host=frontend1.dd15.example.opentlc.com
 
 [apps]
-app1.6bca.internal ansible_ssh_host=app1.6bca.example.opentlc.com
-app2.6bca.internal ansible_ssh_host=app2.6bca.example.opentlc.com
+app1.dd15.internal ansible_ssh_host=app1.dd15.example.opentlc.com
+app2.dd15.internal ansible_ssh_host=app2.dd15.example.opentlc.com
 
 [appdbs]
-appdb1.6bca.internal ansible_ssh_host=appdb1.6bca.example.opentlc.com
+appdb1.dd15.internal ansible_ssh_host=appdb1.dd15.example.opentlc.com
 
 [support]
-support1.6bca.internal ansible_ssh_host=support1.6bca.example.opentlc.com
+support1.dd15.internal ansible_ssh_host=support1.dd15.example.opentlc.com

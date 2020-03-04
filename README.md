@@ -18,6 +18,12 @@ The following ansible roles are created in this project:
 
 ansible-playbook -i myinventory.file main.yml --ask-vault-pass
 
+### Configuration requirements for AWS EC2 Deployments:
+- Need to manually set Security Group Inbound Rules
+  - Allow 80 to your Public IP address. This will allow you test Frontend URL
+  - Allow 8080 limited to your Frontend Host access to App Host
+  - Allow 5432 limited to your App Host access to DB Host
+
 ### Vault password is required to copy YUM repository settings
 - Password: passw0rd
 

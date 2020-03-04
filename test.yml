@@ -1,0 +1,20 @@
+---
+#
+# Test Playbook
+#
+- name: Test Playbook
+  hosts: apps
+  become: yes
+
+  tasks:
+    - name: Check firewall status
+      shell: systemctl is-active firewalld
+      args:
+        executable: /bin/bash
+      ignore_errors: yes
+      register: firewall_status
+
+    - name: Print Firewall status
+      debug:
+        msg: "{{firewall_status}}"
+

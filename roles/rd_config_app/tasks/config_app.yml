@@ -3,11 +3,24 @@
 # Task to Configure Application
 #
 
+- name: Get DB host Private IP address
+  setup:
+    gather_subset: network
+  delegate_to: "{{ groups['appdbs'][0] }}"
+  register: db_network
+
+- name: Set fact for db_host_ip
+  set_fact:
+    db_host_ip: "{{db_network | json_query(ipv4_address)}}"
+  vars:
+    ipv4_address: "ansible_facts.ansible_default_ipv4.address"
+
 - name: Replace DB host
   replace:
     path: "{{ tomcat_deployer_dir }}/{{ APP_NAME }}/WebContent/WEB-INF/web.xml"
     regexp: "localhost"
-    replace: "{{ groups['appdbs'][0] }}"
+    #replace: "{{ groups['appdbs'][0] }}"
+    replace: "{{ db_host_ip }}"
 
 - name: Replace DB listen port
   replace:

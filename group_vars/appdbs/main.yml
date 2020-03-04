@@ -9,6 +9,7 @@ pg_home: /var/lib/pgsql
 pg_data: "{{pg_home}}/data"
 postgres_user: postgres
 postgres_group: postgres
+db_listen_port: 5432
 
 # Application
 app_db_name: empdb

@@ -12,3 +12,21 @@
       <user username="{{ tomcat_admin }}" password="{{ tomcat_admin_password }}" roles="manager-gui,admin,standard,manager"/>
     insertbefore: "</tomcat-users>"
     backup: yes
+
+- name: Check firewall is active
+  shell: |
+    systemctl is-active firewalld
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: firewall_status
+
+- name: Allow Tomcat Port
+  firewalld:
+    port: "{{tomcat_app_port}}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  when:
+    - firewall_status.stdout == "active"
+    

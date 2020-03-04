@@ -29,7 +29,24 @@
 - name: Run Application Schema scripts
   shell: |
     "export PG_PASSWORD={{ app_password }}"
-    /bin/psql -h localhost -U {{ app_user }} {{ app_db_name }} -f /var/lib/pgsql/app_schema.sql
+    /bin/psql -h localhost -U {{ app_user }} -d {{ app_db_name }} -f /var/lib/pgsql/app_schema.sql
+  args:
+    executable: /bin/bash
+  environment:
+    PGPASSWORD: "{{ app_password }}"
+  become_user: postgres
+
+- name: Copy Application Data SQL script
+  template:
+    src: app_data.sql.j2
+    dest: /var/lib/pgsql/app_data.sql
+    owner: postgres
+    group: postgres
+
+- name: Run Application Data scripts
+  shell: |
+    export PGPASSWORD={{app_password}} ;
+    /bin/psql -h localhost -U {{app_user}} -d {{app_db_name}} -f /var/lib/pgsql/app_data.sql
   args:
     executable: /bin/bash
   environment:

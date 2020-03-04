@@ -48,3 +48,20 @@
     name: postgresql
     state: restarted
 
+- name: Check firewall status
+  shell: |
+    systemctl is-active firewalld
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  register: firewall_status
+
+- name: Allow PostgreSQL port
+  firewalld:
+    port: "{{db_listen_port}}/tcp"
+    state: enabled
+    immediate: yes
+    permanent: yes
+  when:
+    - firewall_status.stdout == "active"
+

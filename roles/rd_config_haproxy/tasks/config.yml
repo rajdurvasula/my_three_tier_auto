@@ -2,6 +2,20 @@
 # tasks file for rd_config_haproxy
 #
 
+- name: Get App host Private IP address
+  setup:
+    gather_subset: network
+  delegate_to: "{{ groups['apps'][0] }}"
+  register: app_network
+
+- name: Set fact for app_host_fqdn
+  set_fact:
+    app_host_fqdn: "{{app_network | json_query(app_fqdn)}}"
+    app_host_short: "{{app_network | json_query(app_hostname)}}"
+  vars:
+    app_fqdn: "ansible_facts.ansible_fqdn"
+    app_hostname: "ansible_facts.ansible_hostname"
+
 - name: configure HAProxy
   template:
     src: haproxy.cfg.j2

@@ -41,5 +41,5 @@ ansible-playbook -i myinventory.file main.yml --ask-vault-pass
 
 ## Verification
 - After successful completion of Playbook, access following URL on a web browser
-  - **http://<frontend-public-dns-name>/EmpCRUD**
+  - **http://frontend-public-dns-name/EmpCRUD**
 

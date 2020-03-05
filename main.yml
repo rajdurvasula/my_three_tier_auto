@@ -18,14 +18,14 @@
     - { role: rd_install_haproxy, }
     - { role: rd_config_haproxy, }
 
-- name: Playbook to deploy tomcat
+- name: Playbook to deploy Wildfly
   hosts: apps
   become: true
 
   roles:
-    - { role: rd_install_tomcat, }
-    - { role: rd_config_tomcat, }
     - { role: rd_setup_dbclient, }
+    - { role: rd_install_wildfly, }
+    - { role: rd_config_wildfly, }
 
 - name: Playbook to setup PostgreSQL DB
   hosts: appdbs
@@ -35,11 +35,10 @@
     - { role: rd_setup_appdb, }
     - { role: rd_config_app_db, }
 
-#- name: Playbook to deploy app
-#  hosts: apps
-#  become: true
-#
-#  roles:
-#    - { role: rd_install_app, }
-#    - { role: rd_config_app, }
+- name: Playbook to install 3-tier application to Wildfly
+  hosts: apps
+  become: true
+ 
+  roles:
+    - { role: rd_wildfly_app, }
 

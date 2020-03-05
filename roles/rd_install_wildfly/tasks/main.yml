@@ -1,0 +1,8 @@
+---
+# tasks file for rd_install_wildfly
+
+- name: Include task to install OpenJDK8
+  include: install_openjdk8.yml
+
+- name: Include task to install Wildfly
+  include: install_wildfly.yml 

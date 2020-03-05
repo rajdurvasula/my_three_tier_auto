@@ -1,0 +1,6 @@
+---
+# tasks file for rd_wildfly_app
+#
+
+- name: Include task to install application binary
+  include: install_app.yml

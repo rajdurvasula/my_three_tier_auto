@@ -1,10 +1,6 @@
 ---
-# tasks file for rd_install_app
-#
+# tasks for rd_install_app
 #
 
-- name: Include Task to install OpenJDK 8
-  include: install_openjdk8.yml
-
-- name: Include Task to install Application
+- name: Include task to Install Application
   include: install_app.yml

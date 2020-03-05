@@ -1,0 +1,6 @@
+connect
+batch
+data-source add --name=empds --driver-name=postgresql --connection-url=jdbc:postgresql://{{db_host_fqdn}}:{{db_listen_port}}/{{app_db_name}} --jndi-name=java:jboss/{{app_datasource}} --user-name={{app_user}} --password={{app_password}}
+data-source enable --name=empds
+run-batch
+:reload

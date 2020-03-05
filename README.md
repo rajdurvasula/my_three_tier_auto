@@ -9,10 +9,13 @@ The following ansible roles are created in this project:
 - rd_config_app_db: Configures application database objects
 - rd_config_http: Configures static web pages on Apache HTTP
 - rd_config_haproxy: Configures HAProxy to proxy to Apache Tomcat instances
-- rd_config_tomcat: Configures Apache Tomcat
+- rd_config_tomcat: Configures Apache Tomcat (**Not used in Playbook**)
+- rd_install_wildfly: Installs wildfly-18.0.0.Final
+- rd_config_wildfly: Configures resources on Wildfly server
 - rd_install_haproxy: Installs HAProxy
-- rd_install_tomcat: Installs Apache Tomcat
+- rd_install_tomcat: Installs Apache Tomcat (**Not used in Playbook**)
 - rd_setup_dbclient: Installs PostgreSQL JDBC driver
+- rd_wildfly_app: Installs 3-tier application on Wildfly server
 
 ## Usage:
 
@@ -35,3 +38,8 @@ ansible-playbook -i myinventory.file main.yml --ask-vault-pass
 - PostgreSQL Application password: passw0rd
 - Tomcat Admin user: admin
 - Tomcat Admin password: admin
+
+## Verification
+- After successful completion of Playbook, access following URL on a web browser
+  - **http://<frontend-public-dns-name>/EmpCRUD**
+

@@ -1,0 +1,58 @@
+---
+#
+# Task to configure PostgreSQL Datasource
+#
+
+- name: Get DB host network details
+  setup:
+    gather_subset: network
+  delegate_to: "{{ groups['appdbs'][0] }}"
+  register: db_network
+
+- name: Set fact for db_host_fqdn
+  set_fact:
+    db_host_fqdn: "{{db_network | json_query(host_fqdn)}}"
+  vars:
+    host_fqdn: "ansible_facts.ansible_fqdn"
+
+- name: Create module directory for PostgreSQL JDBC Driver
+  file:
+    path: "{{ pg_driver_module_dir }}"
+    state: directory
+    recurse: yes
+
+- name: Copy PostgreSQL JDBC Driver Module
+  template:
+    src: pg_driver_module.xml.j2
+    dest: "{{ pg_driver_module_dir }}/module.xml"
+
+- name: Copy PostgreSQL configuration script
+  template:
+    src: pg_driver_module.cli.j2
+    dest: "{{wildfly_home_dir}}/pg_driver_module.cli"
+
+- name: Copy DataSource configuration script
+  template:
+    src: pg_datasource.cli.j2
+    dest: "{{wildfly_home_dir}}/pg_datasource.cli"
+
+- name: Create PostgreSQL Driver resource
+  shell: |
+    $JBOSS_HOME/bin/jboss-cli.sh --file={{wildfly_home_dir}}/pg_driver_module.cli
+  args:
+    executable: /bin/bash
+  environment:
+    JBOSS_HOME: "{{wildfly_home_dir}}"
+  notify:
+    - restart_wildfly
+
+- name: Create Application DataSource
+  shell: |
+    $JBOSS_HOME/bin/jboss-cli.sh --file={{wildfly_home_dir}}/pg_datasource.cli
+  args:
+    executable: /bin/bash
+  environment:
+    JBOSS_HOME: "{{wildfly_home_dir}}"
+  notify:
+    - restart_wildfly
+

@@ -1,0 +1,8 @@
+---
+# handlers file for rd_config_wildfly
+
+- name: restart_wildfly
+  service:
+    name: wildfly
+    state: restarted
+

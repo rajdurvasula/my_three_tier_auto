@@ -1,0 +1,6 @@
+---
+# tasks file for rd_config_wildfly
+
+- name: Include Task to configure PostgreSQL DataSource
+  include: config_pg_datasource.yml
+

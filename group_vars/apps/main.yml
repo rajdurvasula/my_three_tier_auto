@@ -28,9 +28,16 @@ tomcat_deployer_dir: "{{ usr_share }}/{{ tomcat_deployer_file.split('.tar')[0] }
 tomcat_app_port: 8080
 
 # Ant
-download_apache_ant_installer_url: http://mirrors.estointernet.in/apache//ant/binaries/apache-ant-1.9.14-bin.tar.gz
+download_apache_ant_installer_url: http://mirrors.estointernet.in/apache/ant/binaries/apache-ant-1.9.14-bin.tar.gz
 apache_ant_file: "{{ download_apache_ant_installer_url | basename }}"
 apache_ant_dir: "{{ usr_share }}/apache-ant-1.9.14"
+
+# Wildfly
+wildfly_download_url: https://download.jboss.org/wildfly/18.0.0.Final/wildfly-18.0.0.Final.tar.gz
+wildfly_home_dir: /opt/wildfly
+wildfly_installer_file: "{{ wildfly_download_url | basename }}"
+wildfly_install_dir: "/opt/{{ wildfly_installer_file | replace('.tar.gz','') }}"
+pg_driver_module_dir: "{{wildfly_home_dir}}/modules/system/layers/base/org/postgresql/main"
 
 # Application
 APP_NAME: EmployeeCRUD
@@ -40,3 +47,5 @@ app_db_name: empdb
 app_user: guest1
 app_password: passw0rd
 db_listen_port: 5432
+app_datasource: jdbc/EmpDS
+

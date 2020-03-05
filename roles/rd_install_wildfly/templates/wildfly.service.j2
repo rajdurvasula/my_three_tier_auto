@@ -1,0 +1,17 @@
+[unit]
+Description=Wildfly application server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart={{wildfly_home_dir}}/bin/standalone.sh -b {{ansible_facts.default_ipv4.address}}
+ExecStop={{wildfly_home_dir}}/bin/shutdown_standalone.sh
+Restart=always
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target
+

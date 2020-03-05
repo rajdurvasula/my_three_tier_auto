@@ -12,3 +12,7 @@
     mode: 0644
     decrypt: yes
 
+- name: Install Git
+  yum:
+    name: git
+    state: latest

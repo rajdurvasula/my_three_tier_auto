@@ -1,0 +1,12 @@
+---
+#
+# Task to install application
+#
+
+- name: Copy app binary to Wildfly
+  copy:
+    src: files/EmpCRUD.war
+    dest: "{{wildfly_home_dir}}/standalone/deployments/"
+    owner: root
+    group: root
+ 
